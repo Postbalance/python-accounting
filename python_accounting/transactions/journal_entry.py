@@ -6,11 +6,10 @@
 # the MIT License: https://www.opensource.org/licenses/mit-license.php
 
 """
-This is the most powerful Transaction in the entire system, capable of 
+This is the most powerful Transaction in the entire system, capable of
     directly accessing the ledger.
 
 """
-from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins import AssigningMixin, ClearingMixin
 from python_accounting.exceptions import (
@@ -29,11 +28,7 @@ class JournalEntry(  # pylint: disable=too-many-ancestors
     __mapper_args__ = {
         "polymorphic_identity": Transaction.TransactionType.JOURNAL_ENTRY,
     }
-
-    def __init__(self, **kw: Any) -> None:
-        self.transaction_type = Transaction.TransactionType.JOURNAL_ENTRY
-        self.credited = True
-        super().__init__(**kw)
+    _credited = True
 
     def _validate_subclass_line_items(self, line_item):
         if self.compound and line_item.tax_id:

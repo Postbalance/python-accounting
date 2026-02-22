@@ -229,6 +229,15 @@ receipt.balance(session)  # Unassigned amount available
 - **Tax Handling**: Taxes automatically posted to control accounts when line items include `tax_id`.
 - **Main Account Amounts**: For compound transactions (Journal Entry), use `main_account_amount` to specify the main account's amount.
 
+## Development Methodology
+
+- **Red/Green/Refactor TDD**: All development follows Test-Driven Development
+  1. **Red**: Write a failing test first
+  2. **Green**: Write the minimum code to make the test pass
+  3. **Refactor**: Clean up while keeping tests green
+- **Tests before code — always**, unless there is a first-class reason not to (e.g. requires a live API key, LLM integration, or other external dependency that cannot be reasonably mocked)
+- When a first-class exception applies, document the reason in a comment near the code
+
 ## Commit Message Conventions
 
 - **Do not include any authorship, co-authorship, or attribution notes** in commit messages or any documentation

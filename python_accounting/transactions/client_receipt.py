@@ -9,8 +9,6 @@
 Represents a Client Receipt Transaction.
 
 """
-
-from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins import AssigningMixin
 from python_accounting.mixins.trading import TradingMixin
@@ -25,18 +23,7 @@ class ClientReceipt(  # pylint: disable=too-many-ancestors
     __mapper_args__ = {
         "polymorphic_identity": Transaction.TransactionType.CLIENT_RECEIPT,
     }
-
-    def __init__(self, **kw: Any) -> None:
-        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
-            Account,
-        )
-
-        self.line_item_types: list = [Account.AccountType.BANK]
-        self.main_account_types: list = [Account.AccountType.RECEIVABLE]
-        self.account_type_map: dict = {
-            "ClientReceipt": Account.AccountType.RECEIVABLE,
-        }
-
-        self.credited = True
-        self.transaction_type = Transaction.TransactionType.CLIENT_RECEIPT
-        super().__init__(**kw)
+    _main_account_types = ["RECEIVABLE"]
+    _line_item_types = ["BANK"]
+    _account_type_map = {"ClientReceipt": "RECEIVABLE"}
+    _credited = True

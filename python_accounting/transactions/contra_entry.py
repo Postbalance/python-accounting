@@ -9,7 +9,6 @@
 Represents a Contra Entry Transaction.
 
 """
-from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins.trading import TradingMixin
 
@@ -21,19 +20,8 @@ class ContraEntry(TradingMixin, Transaction):  # pylint: disable=too-many-ancest
     __mapper_args__ = {
         "polymorphic_identity": Transaction.TransactionType.CONTRA_ENTRY,
     }
-
-    def __init__(self, **kw: Any) -> None:
-        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
-            Account,
-        )
-
-        self.line_item_types: list = [Account.AccountType.BANK]
-        self.main_account_types: list = [Account.AccountType.BANK]
-        self.account_type_map: dict = {
-            "ContraEntry": Account.AccountType.BANK,
-        }
-
-        self.credited = False
-        self.transaction_type = Transaction.TransactionType.CONTRA_ENTRY
-        self.no_tax = True
-        super().__init__(**kw)
+    _main_account_types = ["BANK"]
+    _line_item_types = ["BANK"]
+    _account_type_map = {"ContraEntry": "BANK"}
+    _credited = False
+    _no_tax = True

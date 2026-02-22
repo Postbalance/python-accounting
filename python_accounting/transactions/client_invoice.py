@@ -9,8 +9,6 @@
 Represents a Client Invoice Transaction.
 
 """
-
-from typing import Any
 from python_accounting.models import Transaction
 from python_accounting.mixins import SellingMixin, ClearingMixin
 
@@ -24,15 +22,5 @@ class ClientInvoice(  # pylint: disable=too-many-ancestors
     __mapper_args__ = {
         "polymorphic_identity": Transaction.TransactionType.CLIENT_INVOICE,
     }
-
-    def __init__(self, **kw: Any) -> None:
-        from python_accounting.models import (  # pylint: disable=import-outside-toplevel
-            Account,
-        )
-
-        self.main_account_types: list = [
-            Account.AccountType.RECEIVABLE,
-        ]
-        self.credited = False
-        self.transaction_type = Transaction.TransactionType.CLIENT_INVOICE
-        super().__init__(**kw)
+    _main_account_types = ["RECEIVABLE"]
+    _credited = False

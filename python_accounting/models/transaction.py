@@ -41,6 +41,13 @@ from python_accounting.models import Recyclable, Account, ReportingPeriod, LineI
 class Transaction(IsolatingMixin, Recyclable):
     """Represents a Transaction in the sense of an original source document."""
 
+    # Declarative class-level configuration (overridden by subclasses)
+    _main_account_types = None
+    _credited = None
+    _line_item_types = None
+    _account_type_map = None
+    _no_tax = False
+
     # Transaction types
     TransactionType = StrEnum(
         "TransactionType",
@@ -195,6 +202,52 @@ class Transaction(IsolatingMixin, Recyclable):
             for l in iter(self.line_items)
             if l.credited != self.credited
         )
+
+    def __init__(self, **kw):
+        self._configure_from_class_attrs()
+        super().__init__(**kw)
+
+    def _configure_from_class_attrs(self):
+        """Resolve declarative class-level configuration to instance attributes."""
+        # Derive transaction_type from polymorphic_identity
+        mapper_args = getattr(type(self), "__mapper_args__", {})
+        identity = mapper_args.get("polymorphic_identity")
+        if identity and identity != "Transaction":
+            self.transaction_type = identity
+
+        if self._credited is not None:
+            self.credited = self._credited
+
+        if self._main_account_types is not None:
+            self.main_account_types = [
+                Account.AccountType[t] if isinstance(t, str) else t
+                for t in self._main_account_types
+            ]
+
+        if self._line_item_types is not None:
+            if self._line_item_types == "__purchasables__":
+                self.line_item_types = Account.purchasables
+            else:
+                self.line_item_types = [
+                    Account.AccountType[t] if isinstance(t, str) else t
+                    for t in self._line_item_types
+                ]
+
+        if self._account_type_map is not None:
+            self.account_type_map = {
+                k: Account.AccountType[v] if isinstance(v, str) else v
+                for k, v in self._account_type_map.items()
+            }
+        elif self._main_account_types is not None:
+            first_type = self._main_account_types[0]
+            resolved = (
+                Account.AccountType[first_type]
+                if isinstance(first_type, str) else first_type
+            )
+            self.account_type_map = {type(self).__name__: resolved}
+
+        if self._no_tax:
+            self.no_tax = True
 
     def __repr__(self) -> str:
         return f"{self.account} <{self.transaction_no}>: {self.amount}"
