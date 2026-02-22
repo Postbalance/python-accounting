@@ -72,7 +72,7 @@ class AgingSchedule:
         for account, transactions in [
             (
                 account,
-                account.statement(session, None, self.end_date, True)["transactions"],
+                account.schedule(session, self.end_date)["transactions"],
             )
             for account in session.query(Account)
             .filter(Account.account_type == account_type)

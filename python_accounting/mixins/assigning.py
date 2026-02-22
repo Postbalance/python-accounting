@@ -100,9 +100,7 @@ class AssigningMixin:
 
         balance = self.balance(session)
 
-        for clearable in self.account.statement(session, None, None, True)[
-            "transactions"
-        ]:
+        for clearable in self.account.schedule(session)["transactions"]:
             assignment = Assignment(
                 assignment_date=datetime.now(),
                 transaction_id=self.id,

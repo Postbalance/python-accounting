@@ -63,7 +63,7 @@ def test_account_validation(session, entity, currency):
     session.flush()
 
     with pytest.raises(InvalidAccountTypeError) as e:
-        account.statement(session, None, None, True)
+        account.schedule(session)
 
     assert (
         str(e.value)
@@ -1420,7 +1420,7 @@ def test_receivable_account_schedule(session, entity, currency):
 
     transaction4.post(session)
 
-    statement = client.statement(session, None, None, True)
+    statement = client.schedule(session)
 
     assert statement["transactions"][0].amount == 45
     assert statement["transactions"][0].cleared_amount == 15
@@ -1634,7 +1634,7 @@ def test_supplier_account_schedule(session, entity, currency):
 
     transaction4.post(session)
 
-    statement = supplier.statement(session, None, None, True)
+    statement = supplier.schedule(session)
 
     assert statement["transactions"][0].amount == 73
     assert statement["transactions"][0].cleared_amount == 15
