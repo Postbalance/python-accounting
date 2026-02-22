@@ -11,7 +11,7 @@ Provides exceptions arising from accounting operations.
 """
 
 
-class AccountingExeption(Exception):
+class AccountingException(Exception):
     """Base accounting exception
 
     Attributes:
@@ -24,7 +24,7 @@ class AccountingExeption(Exception):
         return f"{self.message}"
 
 
-class AdjustingReportingPeriodError(AccountingExeption):
+class AdjustingReportingPeriodError(AccountingException):
     """
     Only Journal Entry Transactions can be recorded for adjusting status Reporting Periods.
 
@@ -38,7 +38,7 @@ class AdjustingReportingPeriodError(AccountingExeption):
         super().__init__()
 
 
-class ClosedReportingPeriodError(AccountingExeption):
+class ClosedReportingPeriodError(AccountingException):
     """
     Transactions cannot be recorded for closed reporting periods.
 
@@ -52,7 +52,7 @@ class ClosedReportingPeriodError(AccountingExeption):
         super().__init__()
 
 
-class DuplicateReportingPeriodError(AccountingExeption):
+class DuplicateReportingPeriodError(AccountingException):
     """An Entity can only have one reporting period per calendar year."""
 
     def __init__(self) -> None:
@@ -60,7 +60,7 @@ class DuplicateReportingPeriodError(AccountingExeption):
         super().__init__()
 
 
-class InvalidAccountTypeError(AccountingExeption):
+class InvalidAccountTypeError(AccountingException):
     """
     The account type must be one of those given in the list.
 
@@ -73,7 +73,7 @@ class InvalidAccountTypeError(AccountingExeption):
         super().__init__()
 
 
-class HangingTransactionsError(AccountingExeption):
+class HangingTransactionsError(AccountingException):
     """
     The account cannot be deleted because it has Transactions in the current reporting period.
 
@@ -87,7 +87,7 @@ class HangingTransactionsError(AccountingExeption):
         super().__init__()
 
 
-class InvalidBalanceAccountError(AccountingExeption):
+class InvalidBalanceAccountError(AccountingException):
     """Income Statement Accounts cannot have an opening balance."""
 
     def __init__(self) -> None:
@@ -95,7 +95,7 @@ class InvalidBalanceAccountError(AccountingExeption):
         super().__init__()
 
 
-class InvalidBalanceDateError(AccountingExeption):
+class InvalidBalanceDateError(AccountingException):
     """
     Unless the Entity allows for mid year balances, the balance date must be earlier than
     its reporting period's start.
@@ -106,7 +106,7 @@ class InvalidBalanceDateError(AccountingExeption):
         super().__init__()
 
 
-class InvalidBalanceTransactionError(AccountingExeption):
+class InvalidBalanceTransactionError(AccountingException):
     """Balance Transaction must be one of Client Invoice, Supplier Bill or Journal Entry."""
 
     def __init__(self) -> None:
@@ -114,7 +114,7 @@ class InvalidBalanceTransactionError(AccountingExeption):
         super().__init__()
 
 
-class InvalidCategoryAccountTypeError(AccountingExeption):
+class InvalidCategoryAccountTypeError(AccountingException):
     """
     The account type must the same as the category account type.
 
@@ -130,7 +130,7 @@ class InvalidCategoryAccountTypeError(AccountingExeption):
         super().__init__()
 
 
-class InvalidLineItemAccountError(AccountingExeption):
+class InvalidLineItemAccountError(AccountingException):
     """
     The Line Item main Account type must be one of those given in the list.
 
@@ -145,7 +145,7 @@ class InvalidLineItemAccountError(AccountingExeption):
         super().__init__()
 
 
-class InvalidMainAccountError(AccountingExeption):
+class InvalidMainAccountError(AccountingException):
     """
     The account type of the transaction must be of the type given.
 
@@ -161,7 +161,7 @@ class InvalidMainAccountError(AccountingExeption):
         super().__init__()
 
 
-class InvalidTaxAccountError(AccountingExeption):
+class InvalidTaxAccountError(AccountingException):
     """A Tax account must be of type Control."""
 
     def __init__(self) -> None:
@@ -169,7 +169,7 @@ class InvalidTaxAccountError(AccountingExeption):
         super().__init__()
 
 
-class InvalidTaxChargeError(AccountingExeption):
+class InvalidTaxChargeError(AccountingException):
     """
     A Contra Entry Transaction cannot be charged Tax.
 
@@ -181,7 +181,7 @@ class InvalidTaxChargeError(AccountingExeption):
         super().__init__()
 
 
-class InvalidTransactionDateError(AccountingExeption):
+class InvalidTransactionDateError(AccountingException):
     """The Transaction date cannot be the exact beginning of the reporting period."""
 
     def __init__(self) -> None:
@@ -189,7 +189,7 @@ class InvalidTransactionDateError(AccountingExeption):
         super().__init__()
 
 
-class InvalidTransactionTypeError(AccountingExeption):
+class InvalidTransactionTypeError(AccountingException):
     """The Transaction type cannot be changed as this would bypass subclass validations."""
 
     def __init__(self) -> None:
@@ -197,7 +197,7 @@ class InvalidTransactionTypeError(AccountingExeption):
         super().__init__()
 
 
-class MissingEntityError(AccountingExeption):
+class MissingEntityError(AccountingException):
     """Accounting objects must all be associated with an Entity."""
 
     def __init__(self) -> None:
@@ -205,7 +205,7 @@ class MissingEntityError(AccountingExeption):
         super().__init__()
 
 
-class MissingLineItemError(AccountingExeption):
+class MissingLineItemError(AccountingException):
     """A Transaction must have at least one Line Item to be posted."""
 
     def __init__(self) -> None:
@@ -213,7 +213,7 @@ class MissingLineItemError(AccountingExeption):
         super().__init__()
 
 
-class MissingMainAccountAmountError(AccountingExeption):
+class MissingMainAccountAmountError(AccountingException):
     """A Compound Journal Entry Transaction must have a main account amount."""
 
     def __init__(self) -> None:
@@ -223,7 +223,7 @@ class MissingMainAccountAmountError(AccountingExeption):
         super().__init__()
 
 
-class MissingReportingPeriodError(AccountingExeption):
+class MissingReportingPeriodError(AccountingException):
     """The Entity does not have a reporting period for the given date."""
 
     def __init__(self, entity, year) -> None:
@@ -231,7 +231,7 @@ class MissingReportingPeriodError(AccountingExeption):
         super().__init__()
 
 
-class MissingTaxAccountError(AccountingExeption):
+class MissingTaxAccountError(AccountingException):
     """A non Zero Rate Tax must have an associated control account."""
 
     def __init__(self) -> None:
@@ -239,7 +239,7 @@ class MissingTaxAccountError(AccountingExeption):
         super().__init__()
 
 
-class MultipleOpenPeriodsError(AccountingExeption):
+class MultipleOpenPeriodsError(AccountingException):
     """An Entity can only have one reporting period open at a time."""
 
     def __init__(self) -> None:
@@ -249,7 +249,7 @@ class MultipleOpenPeriodsError(AccountingExeption):
         super().__init__()
 
 
-class NegativeValueError(AccountingExeption):
+class NegativeValueError(AccountingException):
     """
     Accounting amounts should not be negative.
 
@@ -263,7 +263,7 @@ class NegativeValueError(AccountingExeption):
         super().__init__()
 
 
-class PostedTransactionError(AccountingExeption):
+class PostedTransactionError(AccountingException):
     """Changes are not allowed for a posted Transaction.
 
     Args:
@@ -275,7 +275,7 @@ class PostedTransactionError(AccountingExeption):
         super().__init__()
 
 
-class RedundantTransactionError(AccountingExeption):
+class RedundantTransactionError(AccountingException):
     """
     A Transaction main account cannot be used as the account for any of its Line Items.
 
@@ -290,7 +290,7 @@ class RedundantTransactionError(AccountingExeption):
         super().__init__()
 
 
-class SessionEntityError(AccountingExeption):
+class SessionEntityError(AccountingException):
     """The Session Entity should not be deleted."""
 
     def __init__(self) -> None:
@@ -298,7 +298,7 @@ class SessionEntityError(AccountingExeption):
         super().__init__()
 
 
-class UnbalancedTransactionError(AccountingExeption):
+class UnbalancedTransactionError(AccountingException):
     """Total Debit amounts do not match total Credit amounts."""
 
     def __init__(self) -> None:
@@ -306,7 +306,7 @@ class UnbalancedTransactionError(AccountingExeption):
         super().__init__()
 
 
-class UnassignableTransactionError(AccountingExeption):
+class UnassignableTransactionError(AccountingException):
     """
     The Transaction type must be one of those given in the list.
 
@@ -320,7 +320,7 @@ class UnassignableTransactionError(AccountingExeption):
         super().__init__()
 
 
-class UnclearableTransactionError(AccountingExeption):
+class UnclearableTransactionError(AccountingException):
     """
     The Transaction type must be one of those given in the list.
 
@@ -335,7 +335,7 @@ class UnclearableTransactionError(AccountingExeption):
         super().__init__()
 
 
-class UnpostedAssignmentError(AccountingExeption):
+class UnpostedAssignmentError(AccountingException):
     """An unposted Transaction cannot be cleared or assigned."""
 
     def __init__(self) -> None:
@@ -343,7 +343,7 @@ class UnpostedAssignmentError(AccountingExeption):
         super().__init__()
 
 
-class SelfClearanceError(AccountingExeption):
+class SelfClearanceError(AccountingException):
     """A Transaction cannot clear/be assigned to itself."""
 
     def __init__(self) -> None:
@@ -351,7 +351,7 @@ class SelfClearanceError(AccountingExeption):
         super().__init__()
 
 
-class InvalidAssignmentAccountError(AccountingExeption):
+class InvalidAssignmentAccountError(AccountingException):
     """The main account for the cleared and clearing Transaction must be the same."""
 
     def __init__(self) -> None:
@@ -359,7 +359,7 @@ class InvalidAssignmentAccountError(AccountingExeption):
         super().__init__()
 
 
-class InvalidClearanceEntryTypeError(AccountingExeption):
+class InvalidClearanceEntryTypeError(AccountingException):
     """
     Transaction Entry increases the Main Account outstanding balance instead of reducing it.
 
@@ -373,7 +373,7 @@ class InvalidClearanceEntryTypeError(AccountingExeption):
         super().__init__()
 
 
-class CompoundTransactionAssignmentError(AccountingExeption):
+class CompoundTransactionAssignmentError(AccountingException):
     """A compound Transaction cannot be cleared or assigned."""
 
     def __init__(self) -> None:
@@ -381,7 +381,7 @@ class CompoundTransactionAssignmentError(AccountingExeption):
         super().__init__()
 
 
-class InsufficientBalanceError(AccountingExeption):
+class InsufficientBalanceError(AccountingException):
     """
     Assigning Transaction does not have suffecient balance to
     clear the amount specified of the assigned.
@@ -399,7 +399,7 @@ class InsufficientBalanceError(AccountingExeption):
         super().__init__()
 
 
-class OverclearanceError(AccountingExeption):
+class OverclearanceError(AccountingException):
     """
     The assigned Transaction has already been completely cleared.
 
@@ -414,7 +414,7 @@ class OverclearanceError(AccountingExeption):
         super().__init__()
 
 
-class MixedAssignmentError(AccountingExeption):
+class MixedAssignmentError(AccountingException):
     """
     An assigned/cleared cannot be cleared/assigned.
 
